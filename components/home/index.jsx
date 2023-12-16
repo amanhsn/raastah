@@ -68,7 +68,7 @@ const HomePage = () => {
         </p>
         <p className="flex-grow-0 flex-shrink-0 text-[56px] font-bold text-left text-white">
           <span className="flex-grow-0 flex-shrink-0 text-[56px] font-bold text-left text-white">
-            Navigation your journey,
+            Navigating your journey,
           </span>
           <br />
           <span className="flex-grow-0 flex-shrink-0 text-[56px] font-bold text-left text-white">
