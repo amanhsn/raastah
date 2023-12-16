@@ -22,33 +22,46 @@
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 <script>
 
-    var map=L.map('map').setView([33.645145, 72.987141], 17);
-    var tileLayer=L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: "OSM" }).addTo(map);
+    var map = L.map('map').setView([33.645145, 72.987141], 17);
+    var tileLayer = L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: "OSM" }).addTo(map);
+    var marker = null;
 
-    var taxiIcon=L.icon({
+    var taxiIcon = L.icon({
         iconUrl: 'bike.png',
-        iconSize: [70,70]
-    })
-    var marker=L.marker([28, 65], {icon: taxiIcon}).addTo(map);
-    map.on('click', function(e){
-        console.log(e)
-        var secondMarker=L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
-        L.Routing.control({
-  waypoints: [
-    L.latLng(33.645145, 72.987141),
-    L.latLng(e.latlng.lat, e.latlng.lng)
-  ]
-}).on('routesfound', function(e){
-    console.log(e)
-    e.routes[0].coordinates.forEach(function(coord, index){
-        setTimeout(() => {
-            marker.setLatLng([coord.lat, coord.lng])
-        }, 100 * index);
+        iconSize: [70, 70]
+    });
 
-        
-    })
-})
-.addTo(map);
-    })
-    
+    map.on('click', function(e){
+        if (marker) {
+            // Update marker position if it exists
+            marker.setLatLng(e.latlng);
+        } else {
+            // Create marker if it doesn't exist
+            marker = L.marker(e.latlng, {icon: taxiIcon}).addTo(map);
+        }
+
+        if (marker) {
+            var routingControl = L.Routing.control({
+                waypoints: [
+                    L.latLng(33.645145, 72.987141),
+                    e.latlng
+                ]
+            }).addTo(map);
+
+            routingControl.on('routesfound', function(e){
+                var route = e.routes[0];
+                var routeCoords = route.coordinates;
+
+                var index = 0;
+                var markerInterval = setInterval(function() {
+                    if (index === routeCoords.length) {
+                        clearInterval(markerInterval);
+                    } else {
+                        marker.setLatLng([routeCoords[index].lat, routeCoords[index].lng]);
+                        index++;
+                    }
+                }, 100);
+            });
+        }
+    });
 </script>

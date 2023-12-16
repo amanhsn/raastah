@@ -85,7 +85,7 @@ const AboutUs = () => {
       <div className="flex flex-col justify-start items-end flex-grow-0 flex-shrink-0 relative overflow-hidden gap-[27px] px-[25px] pt-4 pb-[9px] rounded-[32px] bg-white">
         <div className="flex-grow-0 flex-shrink-0 w-[400px] h-[350px] relative overflow-hidden rounded-2xl border-2 border-black/60">
           <img
-            src="/muz.png"
+            src="/muz.jpg"
             className="w-[400px] h-[400px] absolute left-[-1.5px] top-[-1.5px] object-cover"
           />
         </div>
